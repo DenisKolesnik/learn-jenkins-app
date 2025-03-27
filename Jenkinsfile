@@ -45,7 +45,7 @@ pipeline {
             steps {
                 sh '''
                     npm install serve
-                    pm2 start "node_modules/.bin/serve" --name myApp -- start -s build
+                    nohup node_modules/.bin/serve -s build &
                     sleep 10
                     npx playwright test
                 '''
