@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     stages {
         stage('Build') {
             agent {
@@ -19,6 +18,7 @@ pipeline {
                     ls -la
                 '''
             }
+        }
         stage ('Deploy') {
             parallel {
                     stage('Unit Test') {
@@ -77,10 +77,8 @@ pipeline {
                     npm install netlify-cli
                     node_modules/.bin/netlify --version
                 '''
-                }
-
             }
-    
+
         }
     }
 }
