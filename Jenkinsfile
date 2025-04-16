@@ -72,7 +72,26 @@ pipeline {
 
             }
         }
-        stage('Deploy') {
+        stage('Deploy Staging') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    npm install netlify-cli
+                    node_modules/.bin/netlify --version
+                    echo "Deploying to staging site id: $NETFLIFY_SITE_ID"
+                    node_modules/.bin/netlify status
+                    node_modules/.bin/netlify deploy --dir=build
+
+                '''
+            }
+        }
+
+        stage('Deploy Prod') {
             agent {
                 docker {
                     image 'node:18-alpine'
@@ -90,6 +109,7 @@ pipeline {
                 '''
             }
         }
+
         stage('Prod E2E') {
             agent {
                 docker {
@@ -97,7 +117,7 @@ pipeline {
                     reuseNode true
                 }
             }
-            
+
             environment {
                 CI_ENVIRONMENT_URL = 'https://incandescent-croissant-f7853d.netlify.app'
             }
