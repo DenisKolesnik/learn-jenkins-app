@@ -127,10 +127,10 @@ pipeline {
                 sh '''
                     node --version
                     npm install netlify-cli
-                    node_modules/.bin/netlify --version
+                    netlify --version
                     echo "Deploying to production site id: $NETFLIFY_SITE_ID"
-                    node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --dir=build --prod
+                    netlify status
+                    netlify deploy --dir=build --prod
                     npx playwright test --reporter=html
                 '''
             }
